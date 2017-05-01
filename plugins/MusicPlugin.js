@@ -26,6 +26,23 @@ class MusicPlugin extends Plugin {
       this.join(client);
     })
   }
+  *request() {
+    try {
+      const res = yield request.get('http://lofi.jakeoid.com:8000/status-json.xsl');
+      const data = JSON.parse(res);
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  *updateStatus() {
+    try {
+      const data = yield this.request();
+      yield client.editStatus("online", {name: `${data.icestats.source.artist} - ${data.icestats.source.title}`});
+    } catch (e) {
+      console.error(e);
+    }
+  }
 }
 
 module.exports = MusicPlugin;
