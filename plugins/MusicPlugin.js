@@ -14,6 +14,8 @@ class MusicPlugin extends Plugin {
       const connection = yield client.joinVoiceChannel(config.defaultVC);
       yield connections.push(connection);
       yield this.play(connection, client);
+    } catch (e) {
+      console.error(e);
     }
   }
   *play(connection, client) {
